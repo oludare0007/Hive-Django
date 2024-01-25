@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
 from .models import Post
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -16,6 +17,24 @@ def home(request):
         'posts': Post.objects.all()
     }
     return render(request, 'blog/home.html',context)
+
+
+
+
+
+
+def like_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.likes += 1
+    post.save()
+    return JsonResponse({'likes': post.likes})
+
+
+def dislike_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.dislikes += 1
+    post.save()
+    return JsonResponse({'dislikes': post.dislikes})
 
 
 class PostListView(ListView):

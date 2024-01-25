@@ -11,6 +11,13 @@
             </div>
             <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content }}</p>
+            <button onclick="likePost({{ post.id }})" id="like-{{ post.id }}">👍</button>
+            <span id="like-count-{{ post.id }}"> {{ post.likes }} likes </span>
+
+
+            <button onclick="dislikePost({{ post.id }})" id="dislike-{{ post.id }}">👎</button>
+            <span id="dislike-count-{{ post.id }}"> {{ post.dislikes }} dislikes </span>
+
           </div>
         </article>
     {% endfor %}
@@ -34,4 +41,60 @@
           <a class="btn btn-outline-info mb-4"  href="?page={{ page_obj.paginator.num_pages }}">Last</a>
       {% endif %}
     {% endif %}
+
+    {% block JavaScript %}
+   <script>
+  // Fetch initial like count for each post when the page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    {% for post in posts %}
+      fetch(`/post/{{ post.id }}/like_count/`)
+        .then(response => response.json())
+        .then(data => {
+          const likeCountSpan = document.getElementById(`like-count-${{ post.id }}`);
+          likeCountSpan.textContent = `${data.likes} like${data.likes !== 1 ? 's' : ''}`;
+        })
+        .catch(error => console.error('Error:', error));
+
+      fetch(`/post/{{ post.id }}/dislike_count/`)
+        .then(response => response.json())
+        .then(data => {
+          const dislikeCountSpan = document.getElementById(`dislike-count-${{ post.id }}`);
+          dislikeCountSpan.textContent = `${data.dislikes} dislike${data.dislikes !== 1 ? 's' : ''}`;
+        })
+        .catch(error => console.error('Error:', error));
+    {% endfor %}
+  });
+
+  // Function to handle like button click
+  function likePost(postId) {
+    const likeCountSpan = document.getElementById(`like-count-${postId}`);
+
+    // Make an AJAX request to the like_post view
+    fetch(`/post/${postId}/like/`)
+      .then(response => response.json())
+      .then(data => {
+        // Update the button text with the updated like count
+        const newText = `${data.likes} like${data.likes !== 1 ? 's' : ''}`;
+        likeCountSpan.textContent = newText;
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  // Function to handle dislike button click
+  function dislikePost(postId) {
+    const dislikeCountSpan = document.getElementById(`dislike-count-${postId}`);
+
+    // Make an AJAX request to the dislike_post view
+    fetch(`/post/${postId}/dislike/`)
+      .then(response => response.json())
+      .then(data => {
+        // Update the button text with the updated dislike count
+        const newText = `${data.dislikes} dislike${data.dislikes !== 1 ? 's' : ''}`;
+        dislikeCountSpan.textContent = newText;
+      })
+      .catch(error => console.error('Error:', error));
+  }
+</script>
+
+    {% endblock %}
 {% endblock content %}
