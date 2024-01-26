@@ -1,5 +1,5 @@
 body {
-    background: #a76161;
+    background: #e7e0e0;
     color: #333333;
     margin-top: 5rem;
   }
@@ -29,7 +29,7 @@ body {
   }
   
   .content-section {
-    background: #d89999;
+    background: rgb(207, 190, 190);
     padding: 10px 20px;
     border: 1px solid #dddddd;
     border-radius: 3px;
