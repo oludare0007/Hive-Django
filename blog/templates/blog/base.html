@@ -2,17 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
-  
-
     {% if title %}
         <title>Django Blog - {{ title }}</title>
     {% else %}
@@ -21,72 +16,67 @@
 </head>
 <body>
     <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <div class="container">
-          <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">The Hive</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
+        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+            <div class="container">
+                <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">The Hive</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
+                        <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
+                    </div>
+                    <!-- Navbar Right Side -->
+                    <div class="navbar-nav">
+                        {% if user.is_authenticated %}
+                        <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
+                        <a class="nav-item nav-link" href="{% url 'profile'%}">Profile</a>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button style="color:gray;" type="submit">logout</button>
+                        </form>
+                        {% else %}
+                        <a class="nav-item nav-link" href="{% url 'login'%}">Login</a>
+                        <a class="nav-item nav-link" href="{% url 'register'%}">Register</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            <!-- Navbar Right Side -->
-            <div class="navbar-nav">
-                {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
-                <a class="nav-item nav-link" href="{% url 'profile'%}">Profile</a>
-                <form method="post" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button style="color:gray;" type="submit">logout</button>
-                </form>
-
-                {%  else %}
-              <a class="nav-item nav-link" href="{% url 'login'%}">Login</a>
-              <a class="nav-item nav-link" href="{% url 'register'%}">Register</a>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </nav>
+        </nav>
     </header>
     <main role="main" class="container" style="background-color: beige;">
-      <div class="row">
-        <div class="col-md-8">
-            {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags}}">
-                    {{message}}
+        <div class="row">
+            <div class="col-md-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags}}">
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
 
+
+                {% block content %}
+
+
+                {% endblock %}
+            </div>
+            <div class="col-md-4">
+                <div class="content-section">
+                    <h3>Current Blog Info</h3>
+                    <p class='text-muted'>
+                        <ul class="list-group">
+                            Latest Post
+                            {% for post in posts %}
+                            <li class="list-group-item list-group-item-light"><small>Date Posted:{{ post.date_posted|date:"F d, Y" }} </small> <br> <small>Author:  {{ post.author }}</small> <br> <small><a class="article-title" href="{% url 'post-detail' post.id %}" style="color: blue;">Title:  {{ post.title }}</a></small></li>
+                            {% endfor %}
+                        </ul>
+                    </p>
                 </div>
-                {% endfor %}
-            {% endif %}
-          {% block content %}
-
-
-
-          
-          {% endblock %}
+            </div>
         </div>
-        <div class="col-md-4" >
-          <div class="content-section" >
-            <h3>Current Blog Info</h3>
-            <p class='text-muted' >
-              <ul class="list-group">
-                Latest Post
-                {% for post in posts %}
-                <li class="list-group-item list-group-item-light"><small>Date Posted:{{ post.date_posted|date:"F d, Y" }} </small> <br> <small>Author:  {{ post.author }}</small> <br> <small><a class="article-title" href="{% url 'post-detail' post.id %}" style="color: blue;">Title:  {{ post.title }}</a></small></li>
-                {% endfor %}
-              <br>
-               
-                
-                
-              </ul>
-            </p>
-          </div>
-        </div>
-      </div>
+    </main>
     </main>
 
     <!-- Optional JavaScript -->
