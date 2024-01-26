@@ -8,6 +8,22 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+    <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+
+  <!-- font wesome stylesheet -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/bootstrap.css' %}" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{% static 'blog/style.css' %}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{% static 'blog/responsive.css' %}" rel="stylesheet" />
     {% if title %}
         <title>Django Blog - {{ title }}</title>
     {% else %}
@@ -45,7 +61,7 @@
             </div>
         </nav>
     </header>
-    <main role="main" class="container" style="background-color: beige;">
+    <main role="main" class="container" style="background-color: rgb(244, 235, 235);">
         <div class="row">
             <div class="col-md-8">
                 {% if messages %}
@@ -56,20 +72,21 @@
                     {% endfor %}
                 {% endif %}
 
-
+                            <br><br><br>
                 {% block content %}
 
 
                 {% endblock %}
             </div>
-            <div class="col-md-4">
-                <div class="content-section">
+            
+            <div class="col-md-4" style="background-color: rgb(152, 67, 67);"><br><br><br>
+                <div class="content-section" >
                     <h3>Current Blog Info</h3>
                     <p class='text-muted'>
                         <ul class="list-group">
                             Latest Post
                             {% for post in posts %}
-                            <li class="list-group-item list-group-item-light"><small>Date Posted:{{ post.date_posted|date:"F d, Y" }} </small> <br> <small>Author:  {{ post.author }}</small> <br> <small><a class="article-title" href="{% url 'post-detail' post.id %}" style="color: blue;">Title:  {{ post.title }}</a></small></li>
+                            <li class="list-group-item list-group-item-light" ><small>Date Posted:{{ post.date_posted|date:"F d, Y" }} </small> <br> <small>Author:  {{ post.author }}</small> <br> <small><a class="article-title" href="{% url 'post-detail' post.id %}" style="color: blue;">Title:  {{ post.title }}</a></small></li>
                             {% endfor %}
                         </ul>
                     </p>
@@ -88,5 +105,20 @@
 
 
     {% endblock %}
+
+
+      <!-- footer section -->
+  <section class="container-fluid footer_section" >
+    <p>
+      Copyright &copy; Dre Tech 2024
+      
+    </p>
+  </section>
+  <!-- footer section -->
+
+  <script type="text/javascript" src="{% static 'blog/js/jquery-3.4.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'blog/js/bootstrap.js' %}"></script>
+
+</body>
  
 </html>

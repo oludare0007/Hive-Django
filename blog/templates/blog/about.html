@@ -1,6 +1,49 @@
 {% extends "blog/base.html "%}
-
+{% load static %}
 {% block content%}
-    <h1> Blog About Page !</h1>
+   
+
+
+      <!-- about section -->
     
+      <section class="about_section layout_padding">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="detail-box">
+                <div class="heading_container">
+                  <h2>
+                    About Us
+                  </h2>
+                </div>
+                <p>
+                    Welcome to THE HIVE, where words come to life, and stories find their home. Established with a passion for sharing ideas, inspiring creativity, and fostering connections, we are more than
+                    just a blogging company – we are storytellers, thought leaders, and community builders. <br><br>
+
+                    At THE HIVE, our mission is to provide a platform for individuals from all walks of life to share their stories, insights, and experiences. We believe in the power of words to inform, educate, and inspire. Whether you're a seasoned writer or a first-time blogger, our platform is designed to amplify your voice and connect you with a global audience.<br><br>
+
+                  Our platform is home to a diverse community of writers, bloggers, and storytellers. From seasoned professionals to aspiring wordsmiths, everyone is welcome. We believe in the unique power of each individual's story, and we're here to help you share yours with the world. <br><br>
+
+                  Whether you're here to read, write, or discover new voices, we invite you to join us on this journey of words. Explore our diverse range of topics, connect with fellow enthusiasts, and become part of a community that values the art of storytelling.
+
+                  Thank you for being a part of THE HIVE. Together, let's create, inspire, and share the magic of words.
+                </p>
+                <a href="{% url 'register'%}">
+                  Get Started
+                </a>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="img-box">
+                <img src="{% static 'blog/images/about-img.png' %}" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- end about section -->
+    
+      <!-- info section -->
+    
+  
 {% endblock %}
